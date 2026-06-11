@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mission Demokratie – Interaktive QR-Code-Rallye zu Antifaschismus und Demokratiebildung">
+    <title>Mission Demokratie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Skip-Link für Barrierefreiheit -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+
+    <!-- ===== STARTSEITE ===== -->
+    <section id="start-screen" class="screen active" role="main" id="main-content">
+        <div class="start-bg-pattern" aria-hidden="true"></div>
+        <div class="container start-container">
+            <div class="start-badge">Ausstellungs-Rallye</div>
+            <div class="logo-block">
+                <div class="logo-icon" aria-hidden="true">🏛️</div>
+                <h1>Mission<br><span class="highlight">Demokratie</span></h1>
+            </div>
+            <p class="intro-text">
+                Eine interaktive Reise durch Geschichte und Gegenwart – entdecke, 
+                wie Propaganda funktioniert, was Demokratie stark macht und warum 
+                kritisches Denken so wichtig ist.
+            </p>
+            <div class="mission-briefing" role="region" aria-label="Spielanleitung">
+                <h2>Deine Mission</h2>
+                <ul class="mission-list">
+                    <li><span class="mission-icon" aria-hidden="true">📱</span><span>Scanne QR-Codes an den Stationen</span></li>
+                    <li><span class="mission-icon" aria-hidden="true">🎮</span><span>Löse verschiedenartige Aufgaben</span></li>
+                    <li><span class="mission-icon" aria-hidden="true">🔤</span><span>Sammle Buchstaben für das Lösungswort</span></li>
+                    <li><span class="mission-icon" aria-hidden="true">⭐</span><span>Erreiche möglichst viele Punkte</span></li>
+                </ul>
+            </div>
+            <div class="start-actions">
+                <button id="start-btn" class="btn btn-primary btn-large">
+                    Mission starten
+                </button>
+                <button id="continue-btn" class="btn btn-secondary btn-large" style="display:none">
+                    Fortsetzen
+                </button>
+                <button id="reset-btn" class="btn btn-text" style="display:none">
+                    Neu beginnen
+                </button>
+            </div>
+            <button id="theme-toggle-start" class="theme-toggle" aria-label="Dunkelmodus umschalten">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== STATIONSÜBERSICHT ===== -->
+    <section id="stations-screen" class="screen" aria-label="Stationsübersicht">
+        <header class="app-header">
+            <button class="btn-icon" id="back-to-start" aria-label="Zurück zur Startseite">←</button>
+            <h1 class="header-title">Stationen</h1>
+            <div class="header-right">
+                <span class="points-badge" id="header-points" aria-live="polite">0 ⭐</span>
+                <button id="theme-toggle" class="theme-toggle-small" aria-label="Dunkelmodus umschalten">🌙</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Fortschrittsanzeige -->
+            <div class="progress-container" role="region" aria-label="Gesamtfortschritt">
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <p class="progress-text">
+                    <span id="completed-count">0</span> von <span id="total-count">6</span> Stationen abgeschlossen
+                </p>
+            </div>
+
+            <!-- Buchstabensammlung -->
+            <div class="letter-collection" role="region" aria-label="Gesammelte Buchstaben">
+                <h3 class="section-label">Lösungswort</h3>
+                <div class="letters" id="collected-letters" aria-label="Buchstaben des Lösungswortes">
+                    <!-- Dynamisch befüllt -->
+                </div>
+            </div>
+
+            <!-- Stationsliste -->
+            <div class="stations-grid" id="stations-list" role="list" aria-label="Alle Stationen">
+                <!-- Dynamisch befüllt -->
+            </div>
+
+            <!-- QR-Code Simulator -->
+            <div class="qr-simulator" role="region" aria-label="Station manuell freischalten">
+                <p class="qr-label">QR-Code scannen oder Code eingeben:</p>
+                <div class="qr-input-row">
+                    <input type="text" id="qr-input" class="qr-input" 
+                           placeholder="z.B. propaganda, medien, wahlen…" 
+                           aria-label="Stations-Code eingeben">
+                    <button id="qr-submit" class="btn btn-secondary">Eingeben</button>
+                </div>
+                <p class="qr-hint">Verfügbare Codes: propaganda · fakenews · feindbilder · medien · wahlen · zivilcourage</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATIONSANSICHT ===== -->
+    <section id="station-screen" class="screen" aria-label="Aktuelle Station">
+        <header class="app-header station-header">
+            <button class="btn-icon" id="back-to-stations" aria-label="Zurück zur Übersicht">←</button>
+            <h1 class="header-title" id="station-title">Station</h1>
+            <div class="header-right">
+                <span class="station-progress-badge" id="station-progress" aria-live="polite">1/3</span>
+            </div>
+        </header>
+
+        <div class="container station-container">
+            <div id="station-intro" class="station-intro" style="display:none">
+                <!-- Stations-Intro, dynamisch gefüllt -->
+            </div>
+            <div class="question-container" id="question-container">
+                <!-- Dynamisch gefüllt je nach Fragetyp -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABSCHLUSS-SCREEN ===== -->
+    <section id="finish-screen" class="screen" aria-label="Mission abgeschlossen">
+        <div class="container">
+            <div class="finish-celebration" aria-hidden="true">
+                <div class="trophy">🏆</div>
+            </div>
+            <h1 class="finish-title">Mission erfüllt!</h1>
+
+            <div class="solution-word-container" role="region" aria-label="Lösungswort">
+                <p class="solution-label">Das Lösungswort lautet:</p>
+                <div class="solution-word" id="solution-word" aria-live="polite">ANTIFA</div>
+            </div>
+
+            <div class="final-stats" role="region" aria-label="Dein Ergebnis">
+                <div class="stat-card">
+                    <span class="stat-value" id="final-points">0</span>
+                    <span class="stat-label">Punkte</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="final-correct">0</span>
+                    <span class="stat-label">Richtige</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="final-stations">0</span>
+                    <span class="stat-label">Stationen</span>
+                </div>
+            </div>
+
+            <div class="reflection-section" role="region" aria-label="Reflexionsfragen">
+                <h2 class="section-heading">Zum Nachdenken</h2>
+                <div class="reflection-cards">
+                    <div class="reflection-card">💭 Was hat dich heute am meisten überrascht?</div>
+                    <div class="reflection-card">📺 Welche Propaganda-Methoden begegnen dir heute noch?</div>
+                    <div class="reflection-card">🤝 Was kannst du persönlich für Demokratie tun?</div>
+                </div>
+            </div>
+
+            <div class="finish-actions">
+                <button id="restart-btn" class="btn btn-primary btn-large">Neue Rallye starten</button>
+                <button id="share-btn" class="btn btn-secondary">Ergebnis teilen</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEEDBACK MODAL ===== -->
+    <div id="feedback-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="feedback-icon" id="feedback-icon" aria-hidden="true">✓</div>
+            <h2 id="feedback-title">Richtig!</h2>
+            <p id="feedback-text">Das war die richtige Antwort.</p>
+            <div id="feedback-explanation" class="feedback-explanation" style="display:none"></div>
+            <div id="feedback-points" class="feedback-points" aria-live="polite" style="display:none"></div>
+            <button id="feedback-continue" class="btn btn-primary">Weiter</button>
+        </div>
+    </div>
+
+    <!-- ===== BUCHSTABEN MODAL ===== -->
+    <div id="letter-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="letter-modal-title">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content modal-celebration">
+            <div class="celebration-icon" aria-hidden="true">🎉</div>
+            <h2 id="letter-modal-title">Station abgeschlossen!</h2>
+            <p>Neuer Buchstabe freigeschaltet:</p>
+            <div class="big-letter" id="earned-letter" aria-live="polite">D</div>
+            <p class="station-result-points"><strong id="station-points-display">0</strong> Punkte erreicht</p>
+            <button id="letter-continue" class="btn btn-primary">Zur Übersicht</button>
+        </div>
+    </div>
+
+    <!-- Scripts (Reihenfolge wichtig!) -->
+    <script src="js/storage.js"></script>
+    <script src="js/stations.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
